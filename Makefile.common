@@ -1,0 +1,28 @@
+ifndef MAKEFILE_COMMON_INCLUDED
+
+MAKEFILE_COMMON_INCLUDED := 1
+
+COMMON.SRCS := \
+	common/esShader.c \
+	common/esShapes.c \
+	common/esTransform.c \
+	common/esUtil.c \
+	$(NULL)
+COMMON.SRCS.NAMES := $(notdir $(COMMON.SRCS))
+COMMON.OBJS := $(COMMON.SRCS:.c=.o)
+COMMON.DEPS := $(COMMON.OBJS:.o=.d)
+COMMON.CFLAGS :=
+COMMON.STATIC = lib/libcommon.a
+
+$(COMMON.STATIC): $(COMMON.OBJS)
+	@mkdir -p $(dir $@)
+	$(AR) cr $@ $^
+
+
+all:: $(COMMON.STATIC)
+
+
+clean::
+	$(RM) $(COMMON.STATIC) $(COMMON.OBJS) $(COMMON.DEPS)
+
+endif
